@@ -19,7 +19,7 @@ func JWTMiddleware() gin.HandlerFunc {
 
 		tokenStr := strings.TrimPrefix(authHeader, "Bearer ")
 
-		// ✅ Cek apakah token valid (masih ada di validTokens)
+		// Cek apakah token valid (masih ada di validTokens)
 		if !utils.IsTokenValid(tokenStr) {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "token has been invalidated"})
 			return

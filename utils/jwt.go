@@ -29,7 +29,6 @@ var (
 	validTokensMu sync.RWMutex
 )
 
-// ✅ Generate JWT dan langsung simpan ke daftar token valid
 func GenerateJWT(userID uint) (string, error) {
 	exp := time.Now().Add(24 * time.Hour)
 
@@ -52,7 +51,6 @@ func GenerateJWT(userID uint) (string, error) {
 	return signedToken, nil
 }
 
-// ✅ Verifikasi dan cek apakah token masih di whitelist
 func VerifyJWT(tokenStr string) (*JWTClaims, error) {
 	token, err := jwt.ParseWithClaims(tokenStr, &JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return jwtSecret, nil
@@ -73,14 +71,12 @@ func VerifyJWT(tokenStr string) (*JWTClaims, error) {
 	return claims, nil
 }
 
-// ✅ Simpan token valid
 func AddValidToken(token string, exp time.Time) {
 	validTokensMu.Lock()
 	defer validTokensMu.Unlock()
 	validTokens[token] = exp
 }
 
-// ✅ Periksa apakah token valid
 func IsTokenValid(token string) bool {
 	validTokensMu.RLock()
 	defer validTokensMu.RUnlock()
@@ -99,7 +95,6 @@ func IsTokenValid(token string) bool {
 	return true
 }
 
-// ✅ Hapus token dari whitelist (dipakai saat logout)
 func RemoveToken(token string) {
 	validTokensMu.Lock()
 	defer validTokensMu.Unlock()

@@ -91,7 +91,6 @@ func (r *itemRepo) Delete(id uint) error {
 	return nil
 }
 
-// helper
 func now() int64 {
 	return int64(uint64(time.Now().Unix()))
 }

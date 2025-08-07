@@ -21,8 +21,6 @@ func NewAuthHandler(r *gin.RouterGroup, usecase usecase.AuthUseCase) *AuthHandle
 
 	r.POST("/register", handler.Register)
 	r.POST("/login", handler.Login)
-	// NOTE: logout JANGAN di sini jika kamu pakai middleware di group terproteksi
-
 	return handler
 }
 

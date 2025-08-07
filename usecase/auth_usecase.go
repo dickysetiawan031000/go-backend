@@ -25,7 +25,6 @@ func NewAuthUseCase() AuthUseCase {
 	}
 }
 
-// Register akan membuat user baru dan menyimpan ke slice in-memory
 func (a *authUseCase) Register(user model.User) (model.User, error) {
 	for _, u := range a.users {
 		if u.Email == user.Email {
@@ -45,7 +44,6 @@ func (a *authUseCase) Register(user model.User) (model.User, error) {
 	return user, nil
 }
 
-// Login memverifikasi kombinasi email dan password
 func (a *authUseCase) Login(email, password string) (model.User, error) {
 	for _, u := range a.users {
 		if u.Email == email && utils.CheckPasswordHash(password, u.Password) {
@@ -67,7 +65,7 @@ func (a *authUseCase) GetProfile(userID uint) (model.User, error) {
 func (a *authUseCase) UpdateProfile(id uint, input auth.UpdateUserRequest) (model.User, error) {
 	for i, u := range a.users {
 		if u.ID == id {
-			// Cek duplikat email
+
 			for _, other := range a.users {
 				if other.Email == input.Email && other.ID != id {
 					return model.User{}, errors.New("email already taken")
@@ -77,7 +75,6 @@ func (a *authUseCase) UpdateProfile(id uint, input auth.UpdateUserRequest) (mode
 			a.users[i].Name = input.Name
 			a.users[i].Email = input.Email
 
-			// Kalau mau ganti password, harus masukkan password lama
 			if input.NewPassword != "" {
 				if input.OldPassword == "" {
 					return model.User{}, errors.New("old password required to change password")
